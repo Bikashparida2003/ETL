@@ -5,37 +5,30 @@ on:
     branches:
       - main
 
-
 jobs:
-  Extract_data_job:
+  ETL_Pipeline_Job:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-      - name: execute Extract_data.py
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Execute Extract
         run: python Extract_data.py
 
-
-  Transform_data_job:
-    runs-on: ubuntu-latest
-    needs: Extract_data_job
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: execute Transform_data.py
+      - name: Execute Transform
         run: python Transform_data.py
       
-  Load_data_job:
-    runs-on: ubuntu-latest 
-    needs: Transform_data_job
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: execute Load_data.py
+      - name: Execute Load
         run: python Load_data.py
-      - name: show python version
+
+      - name: Show Python Version
         run: python --version
-        
+
 
 
 
